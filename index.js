@@ -6,6 +6,39 @@ const wHeight = window.innerHeight;
 canvas.width = wWidth;
 canvas.height = wHeight;
 
+function scaleCanvas(
+  canvas,
+  context,
+  width,
+  height
+) {
+  // Handle window for SSR
+  if (typeof window === 'undefined') return null
+  
+  // determine the actual ratio we want to draw at
+  const ratio = window.devicePixelRatio || 1
+
+  if (devicePixelRatio !== 1) {
+    // set the 'real' canvas size to the higher width/height
+    canvas.width = width * ratio
+    canvas.height = height * ratio
+
+    // ...then scale it back down with CSS
+    canvas.style.width = width + 'px'
+    canvas.style.height = height + 'px'
+  } else {
+    // this is a normal 1:1 device; just scale it simply
+    canvas.width = width
+    canvas.height = height
+    canvas.style.width = ''
+    canvas.style.height = ''
+  }
+
+  // scale the drawing context so everything will work at the higher ratio
+  context.scale(ratio, ratio)
+}
+scaleCanvas(canvas, ctx, wWidth, wHeight);
+
 class Circle {
   constructor(xPos, yPos, radius = '10', color = 'black', text = '') {
     this.xPos = xPos;
