@@ -46,6 +46,9 @@ class Circle {
     this.radius = radius;
     this.color = color;
     this.text = text;
+
+    this.dX = 1;
+    this.dY = 1;
   }
 
   draw(ctx) {
@@ -65,9 +68,20 @@ class Circle {
 
     ctx.closePath();
   }
+  update(ctx) {
+    ctx.clearRect(0, 0, wWidth, wHeight);
+    this.xPos+=this.dX;
+    this.yPos+=this.dY;
+    this.draw(ctx)
+  }
 }
 
 const circle = new Circle(120, 130, 30, 'red', '1');
 
-circle.draw(ctx);
+const refresh = () => {
+  requestAnimationFrame(refresh);
+  circle.update(ctx)
+}
+
+refresh();
 
