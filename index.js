@@ -68,8 +68,25 @@ class Circle {
 
     ctx.closePath();
   }
+  detectCollision() {
+    const x = this.xPos + this.radius+10;
+    const y = this.yPos + this.radius+10;
+    if(x > wWidth) {
+      this.dX = -1;
+    }
+    if(x < 0 + this.radius) {
+      this.dX = 1;
+    }
+    if(y > wHeight) {
+      this.dY = -1;
+    }
+    if(y < 0 + this.radius) {
+      this.dY = 1;
+    }
+  }
   update(ctx) {
     ctx.clearRect(0, 0, wWidth, wHeight);
+    this.detectCollision();
     this.xPos+=this.dX;
     this.yPos+=this.dY;
     this.draw(ctx)
